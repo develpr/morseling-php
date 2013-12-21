@@ -55,13 +55,28 @@ class Morseling{
 			'received' => 1
 		);
 		
-		$result = $this->put($uri, $data);
-		
-		
+		$result = $this->put($uri, $data);		
 		
 	}
 	
-	public function createMessage($times)
+	public function createMessageFromString($string)
+	{
+		$string = trim($string);
+		
+		if(strlen($string) > 70)
+			throw new Exception("Messages must be 70 characters or less");
+		
+		$uri = $this->baseUri . $this->apiUri . 'messages';
+		
+		$data = array(
+			'text' => $string
+		);
+		
+		$result = $this->post($uri, $data);
+
+	}
+	
+	public function createMessage($times, $type="text")
 	{
 //		http_build_query
 	}
@@ -153,6 +168,11 @@ class Morseling{
 	public function getSecret()
 	{
 		return $this->secret;
+	}
+	
+	public function setBaseApiEndpoint($uri)
+	{
+		$this->baseUri = $uri;
 	}
 	
 }
